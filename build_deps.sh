@@ -22,7 +22,7 @@ case $OS in
             CentOS)
 
                 echo "Linux, CentOS"
-                sudo yum -y install automake cmake gcc-c++ git libtool openssl-devel wget
+                yum -y install automake cmake gcc-c++ git libtool openssl-devel wget
                 OUTPUT=`ldconfig -p | grep libuv`
                 if [[ $(echo $OUTPUT) != "" ]]
                     then echo "libuv has already been installed"
@@ -33,12 +33,12 @@ case $OS in
                     pushd libuv-v1.18.0
                     sh autogen.sh
                     ./configure
-                    sudo make install
+                    make install
                     popd
                     popd
 
-                    sudo grep -q -F '/usr/local/lib' /etc/ld.so.conf.d/usrlocal.conf || echo '/usr/local/lib' | sudo tee --append /etc/ld.so.conf.d/usrlocal.conf > /dev/null
-                    sudo ldconfig -v
+                    grep -q -F '/usr/local/lib' /etc/ld.so.conf.d/usrlocal.conf || echo '/usr/local/lib' | tee --append /etc/ld.so.conf.d/usrlocal.conf > /dev/null
+                    ldconfig -v
 
                 fi
             ;;
@@ -47,9 +47,9 @@ case $OS in
 
                 echo "Linux, Ubuntu"
 
-                sudo apt-add-repository -y ppa:linuxjedi/ppa
-                sudo apt-get -y update
-                sudo apt-get -y install g++ make cmake libuv-dev libssl-dev
+                apt-add-repository -y ppa:linuxjedi/ppa
+                apt-get -y update
+                apt-get -y install g++ make cmake libuv-dev libssl-dev
             ;;
 
             *) echo "Your system $KERNEL is not supported"
